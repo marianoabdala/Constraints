@@ -1,6 +1,6 @@
 import UIKit
 
-class TrailingViewController: UIViewController {
+class LeadingViewController: UIViewController {
 
     enum Position: String {
         
@@ -38,7 +38,7 @@ class TrailingViewController: UIViewController {
     }
 }
 
-extension TrailingViewController: UIPickerViewDataSource {
+extension LeadingViewController: UIPickerViewDataSource {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         
@@ -51,7 +51,7 @@ extension TrailingViewController: UIPickerViewDataSource {
     }
 }
 
-extension TrailingViewController: UIPickerViewDelegate {
+extension LeadingViewController: UIPickerViewDelegate {
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
@@ -64,7 +64,7 @@ extension TrailingViewController: UIPickerViewDelegate {
     }
 }
 
-extension TrailingViewController {
+extension LeadingViewController {
     
     private func configurePosition() {
         

@@ -24,7 +24,7 @@
                                             <frame key="frameInset" width="342" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Trailing Change" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ORi-qN-yYv">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Leading Change" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ORi-qN-yYv">
                                                     <frame key="frameInset" minX="15" width="325" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -111,10 +111,10 @@
             </objects>
             <point key="canvasLocation" x="2098.4000000000001" y="-491.60419790104953"/>
         </scene>
-        <!--Trailing View Controller-->
+        <!--Leading View Controller-->
         <scene sceneID="zjG-a3-0ZH">
             <objects>
-                <viewController id="XzK-cS-8BH" customClass="TrailingViewController" customModule="Constraints" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XzK-cS-8BH" customClass="LeadingViewController" customModule="Constraints" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mUi-ub-YU0"/>
                         <viewControllerLayoutGuide type="bottom" id="gVv-ES-6kC"/>
