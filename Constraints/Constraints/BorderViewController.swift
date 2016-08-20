@@ -52,7 +52,7 @@ extension BorderViewController: UIPickerViewDelegate {
 
 extension BorderViewController {
     
-    private func configurePosition() {
+    fileprivate func configurePosition() {
         
         self.positionLabel.text = self.position.rawValue
         

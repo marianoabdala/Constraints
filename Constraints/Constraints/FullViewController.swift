@@ -52,7 +52,7 @@ extension FullViewController: UIPickerViewDelegate {
 
 extension FullViewController {
     
-    private func configurePosition() {
+    fileprivate func configurePosition() {
         
         self.positionLabel.text = self.position.rawValue
         

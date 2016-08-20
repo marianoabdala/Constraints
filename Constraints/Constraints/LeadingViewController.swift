@@ -66,7 +66,7 @@ extension LeadingViewController: UIPickerViewDelegate {
 
 extension LeadingViewController {
     
-    private func configurePosition() {
+    fileprivate func configurePosition() {
         
         self.positionLabel.text = self.position.rawValue
 

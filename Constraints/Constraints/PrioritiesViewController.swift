@@ -1,4 +1,5 @@
 import UIKit
+import ReactiveCocoa
 
 class PrioritiesViewController: UIViewController {
     
@@ -17,12 +18,12 @@ class PrioritiesViewController: UIViewController {
     @IBOutlet weak var centerPositionConstraint: NSLayoutConstraint!
     @IBOutlet weak var rightPositionConstraint: NSLayoutConstraint!
     
-    var position = Position.Left {
+    let position = MutableProperty(Position.Left)
+    
+    override func viewDidLoad() {
         
-        didSet {
-            
-            self.configurePosition()
-        }
+        super.viewDidLoad()
+        self.setupBindings()
     }
 }
 
@@ -48,58 +49,46 @@ extension PrioritiesViewController: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        self.position = Position.all[row]
+        self.position.value = Position.all[row]
     }
 }
 
 extension PrioritiesViewController {
     
-    private func configurePosition() {
+    fileprivate func setupBindings() {
+
+        let priorityMap: (Position, Position) -> (UILayoutPriority) = { $0 == $1 ? UILayoutPriorityDefaultHigh : UILayoutPriorityDefaultLow }
         
-        self.positionLabel.text = self.position.rawValue
+        self.leftPositionConstraint.rac_priority <~ self.position.producer.map { priorityMap($0, .Left) }
+        self.centerPositionConstraint.rac_priority <~ self.position.producer.map { priorityMap($0, .Center) }
+        self.rightPositionConstraint.rac_priority <~ self.position.producer.map { priorityMap($0, .Right) }
         
-        let changes = {
+        self.position.signal.observeNext { [weak self] position in
             
-            switch self.position {
+            guard let strongSelf = self else { return }
+            
+            let changes = { strongSelf.view.layoutIfNeeded() }
+            
+            let completion: (Bool) -> (Void) = { [weak self] _ in
                 
-            case .Left:
-                
-                self.leftPositionConstraint.priority = UILayoutPriorityDefaultHigh
-                self.centerPositionConstraint.priority = UILayoutPriorityDefaultLow
-                self.rightPositionConstraint.priority = UILayoutPriorityDefaultLow
+                guard let strongSelf = self else { return }
 
-            case .Center:
+                if let positionIndex = Position.all.index(of: strongSelf.position.value) {
 
-                self.leftPositionConstraint.priority = UILayoutPriorityDefaultLow
-                self.centerPositionConstraint.priority = UILayoutPriorityDefaultHigh
-                self.rightPositionConstraint.priority = UILayoutPriorityDefaultLow
-
-            case .Right:
-
-                self.leftPositionConstraint.priority = UILayoutPriorityDefaultLow
-                self.centerPositionConstraint.priority = UILayoutPriorityDefaultLow
-                self.rightPositionConstraint.priority = UILayoutPriorityDefaultHigh
+                    strongSelf.positionPicker.selectRow(positionIndex, inComponent: 0, animated: false)
+                }
             }
             
-            self.view.layoutIfNeeded()
-        }
-        
-        let completion: (Bool) -> (Void) = { _ in
-            
-            if let positionIndex = Position.all.index(of: self.position) {
-                
-                self.positionPicker.selectRow(positionIndex, inComponent: 0, animated: false)
+            if strongSelf.animatedSwitch.isOn {
+
+                UIView.animate(withDuration: 0.5, animations: changes, completion: completion)
+
+            } else {
+
+                changes()
+                completion(false)
             }
-        }
-        
-        if self.animatedSwitch.isOn {
-            
-            UIView.animate(withDuration: 0.5, animations: changes, completion: completion)
-            
-        } else {
-            
-            changes()
-            completion(false)
+
         }
     }
 }
